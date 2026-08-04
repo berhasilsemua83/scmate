@@ -2260,6 +2260,12 @@ useEffect(() => {
 
       {showQuotaModal && (
         <div 
+            ref={(el) => {
+                if (el && !el.dataset.scrolled) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.dataset.scrolled = "true";
+                }
+            }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm"
             onClick={() => setShowQuotaModal(false)}
         >
@@ -2298,6 +2304,12 @@ useEffect(() => {
 
       {showPaywall && (
         <div 
+            ref={(el) => {
+                if (el && !el.dataset.scrolled) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.dataset.scrolled = "true";
+                }
+            }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm"
             onClick={() => setShowPaywall(false)}
         >

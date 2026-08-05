@@ -38,7 +38,7 @@ export async function checkUsageLimit(): Promise<boolean> {
         const stored = localStorage.getItem(storageKey);
         if (stored) {
             const usage = JSON.parse(stored);
-            if (usage.date === today && usage.count >= 3) {
+            if (usage.date === today && usage.count >= 5) {
                 return false; // Limit reached
             }
         }

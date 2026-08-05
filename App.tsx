@@ -239,6 +239,7 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AppTab>('production');
   const [showPaywall, setShowPaywall] = useState(false);
   const [showQuotaModal, setShowQuotaModal] = useState(false);
+   const [showLimitPaywall, setShowLimitPaywall] = useState(false); 
   const [showManualBook, setShowManualBook] = useState(false);
   const [imageTab, setImageTab] = useState<ImageTab>('generate');
   
@@ -1018,7 +1019,7 @@ useEffect(() => {
     // IP Rate Limiting Check
     const isAllowed = await checkUsageLimit();
     if (!isAllowed) {
-        setShowPaywall(true);
+        setShowLimitPaywall(true); // <-- Memanggil Popup B yang baru
         return;
     }
 
@@ -2352,7 +2353,42 @@ useEffect(() => {
             </div>
         </div>
       )}
-
+{showLimitPaywall && (
+        <div 
+            className="absolute top-0 left-0 right-0 bottom-0 w-full z-[99999] bg-slate-900/80 backdrop-blur-sm"
+            onClick={() => setShowLimitPaywall(false)}
+        >
+            <div 
+                className="bg-slate-800 border border-slate-700 p-6 rounded-xl max-w-sm w-[90%] shadow-2xl absolute left-1/2 -translate-x-1/2"
+                style={{ top: `${Math.max(50, clickYRef.current - 150)}px` }}
+                onClick={(e) => e.stopPropagation()}
+            >
+                <button 
+                    onClick={() => setShowLimitPaywall(false)}
+                    className="absolute top-4 right-4 text-slate-400 hover:text-white"
+                >
+                    <Icon type="close" className="w-5 h-5" />
+                </button>
+                <div className="text-center mb-6">
+                    <div className="mx-auto w-12 h-12 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center mb-4">
+                        <Icon type="sparkles" className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Batas Harian Tercapai</h3>
+                    <p className="text-slate-300 text-sm">
+                        Batas harian penggunaan Anda telah tercapai. Jika tertarik, Anda bisa mendapatkan versi Full Version untuk akses tanpa batas dan tingkatkan produktivitas konten Anda!
+                    </p>
+                </div>
+                <a 
+                    href="https://lynk.id/akariu/de5ynzggyyl7" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="w-full block text-center bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-amber-600 hover:to-orange-600 transition-all duration-300"
+                >
+                    Dapatkan Full Version
+                </a>
+            </div>
+        </div>
+      )}
       <ManualBook isOpen={showManualBook} onClose={() => setShowManualBook(false)} />
 
     </div>

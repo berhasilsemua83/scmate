@@ -334,6 +334,23 @@ const App: React.FC = () => {
   }, [isLoading]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const autoGenerationQueueRef = useRef<string[]>([]);
+    const clickYRef = useRef<number>(0);
+  useEffect(() => {
+    const handleGlobalClick = (e: any) => {
+      // Mendapatkan posisi Y jari/mouse saat klik
+      if (e.touches && e.touches.length > 0) {
+        clickYRef.current = e.touches[0].pageY;
+      } else if (e.pageY) {
+        clickYRef.current = e.pageY;
+      }
+    };
+    window.addEventListener('click', handleGlobalClick, true);
+    window.addEventListener('touchstart', handleGlobalClick, { capture: true, passive: true });
+    return () => {
+      window.removeEventListener('click', handleGlobalClick, true);
+      window.removeEventListener('touchstart', handleGlobalClick, true);
+    };
+  }, []);
   // Specific queue for lipsync auto-generation to handle them differently if needed
   const autoLipsyncQueueRef = useRef<{scriptId: string, segmentIndices: number[]}[]>([]);
 
@@ -1319,7 +1336,7 @@ useEffect(() => {
   const isAiScriptMode = formData.scriptSource === 'ai';
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-4 sm:p-6 lg:p-8">
+    <div className="relative min-h-screen flex flex-col items-center p-4 sm:p-6 lg:p-8">
       {/* ... (Header, Tabs, Form Column - unchanged) ... */}
       {editingImage && (
         <ImageCropper
@@ -2260,12 +2277,12 @@ useEffect(() => {
 
       {showQuotaModal && (
         <div 
-            className="fixed top-0 left-0 right-0 bottom-0 w-full h-[100dvh] z-[99999] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm"
-            style={{ position: 'fixed' }}
+            className="absolute top-0 left-0 right-0 bottom-0 w-full z-[99999] bg-slate-900/80 backdrop-blur-sm"
             onClick={() => setShowQuotaModal(false)}
         >
             <div 
-                className="bg-slate-800 border border-slate-700 p-6 rounded-xl max-w-sm w-full shadow-2xl relative"
+                className="bg-slate-800 border border-slate-700 p-6 rounded-xl max-w-sm w-[90%] shadow-2xl absolute left-1/2 -translate-x-1/2"
+                style={{ top: `${Math.max(50, clickYRef.current - 150)}px` }}
                 onClick={(e) => e.stopPropagation()}
             >
                 <button 
@@ -2286,9 +2303,7 @@ useEffect(() => {
                     </p>
                 </div>
                 <button 
-                    onClick={() => {
-                        setShowQuotaModal(false);
-                    }}
+                    onClick={() => setShowQuotaModal(false)}
                     className="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg transition-colors border border-slate-600"
                 >
                     Tutup & Mengerti
@@ -2299,12 +2314,12 @@ useEffect(() => {
 
       {showPaywall && (
         <div 
-            className="fixed top-0 left-0 right-0 bottom-0 w-full h-[100dvh] z-[99999] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm"
-            style={{ position: 'fixed' }}
+            className="absolute top-0 left-0 right-0 bottom-0 w-full z-[99999] bg-slate-900/80 backdrop-blur-sm"
             onClick={() => setShowPaywall(false)}
         >
             <div 
-                className="bg-slate-800 border border-slate-700 p-6 rounded-xl max-w-sm w-full shadow-2xl relative"
+                className="bg-slate-800 border border-slate-700 p-6 rounded-xl max-w-sm w-[90%] shadow-2xl absolute left-1/2 -translate-x-1/2"
+                style={{ top: `${Math.max(50, clickYRef.current - 150)}px` }}
                 onClick={(e) => e.stopPropagation()}
             >
                 <button 
@@ -2322,7 +2337,6 @@ useEffect(() => {
                         Fitur ini terkunci. Dapatkan versi lengkap untuk mengakses semua fitur ScriptMate AI dan tingkatkan produktivitas konten Anda!
                     </p>
                 </div>
-                {/* LOKASI MENGUBAH LINK TOKO */}
                 <a 
                     href="https://lynk.id/akariu/de5ynzggyyl7" 
                     target="_blank" 

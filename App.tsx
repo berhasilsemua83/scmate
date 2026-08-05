@@ -2334,7 +2334,7 @@ useEffect(() => {
                 </div>
                 {/* LOKASI MENGUBAH LINK TOKO */}
                 <a 
-                    href="https://shopee.co.id/your_store_link_here" 
+                    href="https://lynk.id/akariu/de5ynzggyyl7" 
                     target="_blank" 
                     rel="noreferrer"
                     className="w-full block text-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"

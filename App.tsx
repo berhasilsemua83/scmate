@@ -2260,7 +2260,8 @@ useEffect(() => {
 
       {showQuotaModal && (
         <div 
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm"
+            className="fixed top-0 left-0 right-0 bottom-0 w-full h-[100dvh] z-[99999] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm"
+            style={{ position: 'fixed' }}
             onClick={() => setShowQuotaModal(false)}
         >
             <div 
@@ -2298,7 +2299,8 @@ useEffect(() => {
 
       {showPaywall && (
         <div 
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm"
+            className="fixed top-0 left-0 right-0 bottom-0 w-full h-[100dvh] z-[99999] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm"
+            style={{ position: 'fixed' }}
             onClick={() => setShowPaywall(false)}
         >
             <div 
